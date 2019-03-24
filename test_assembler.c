@@ -4,31 +4,29 @@
 
 #include <CUnit/Basic.h>
 
-#include "src/utils.h"
 #include "src/tables.h"
-#include "src/translate_utils.h"
 #include "src/translate.h"
+#include "src/translate_utils.h"
+#include "src/utils.h"
 
 const char* TMP_FILE = "test_output.txt";
 const int BUF_SIZE = 1024;
 
 /****************************************
- *  Helper functions 
+ *  Helper functions
  ****************************************/
 
-int do_nothing() {
-    return 0;
-}
+int do_nothing() { return 0; }
 
 int init_log_file() {
     set_log_file(TMP_FILE);
     return 0;
 }
 
-int check_lines_equal(char **arr, int num) {
+int check_lines_equal(char** arr, int num) {
     char buf[BUF_SIZE];
 
-    FILE *f = fopen(TMP_FILE, "r");
+    FILE* f = fopen(TMP_FILE, "r");
     if (!f) {
         CU_FAIL("Could not open temporary file");
         return 0;
@@ -45,7 +43,7 @@ int check_lines_equal(char **arr, int num) {
 }
 
 /****************************************
- *  Test cases for translate_utils.c 
+ *  Test cases for translate_utils.c
  ****************************************/
 
 void test_translate_reg() {
@@ -74,7 +72,8 @@ void test_translate_num() {
     CU_ASSERT_EQUAL(output, 35);
     CU_ASSERT_EQUAL(translate_num(&output, "145634236", 0, 9000000000), 0);
     CU_ASSERT_EQUAL(output, 145634236);
-    CU_ASSERT_EQUAL(translate_num(&output, "0xC0FFEE", -9000000000, 9000000000), 0);
+    CU_ASSERT_EQUAL(translate_num(&output, "0xC0FFEE", -9000000000, 9000000000),
+                    0);
     CU_ASSERT_EQUAL(output, 12648430);
     CU_ASSERT_EQUAL(translate_num(&output, "72", -16, 72), 0);
     CU_ASSERT_EQUAL(output, 72);
@@ -86,7 +85,7 @@ void test_translate_num() {
 }
 
 /****************************************
- *  Test cases for tables.c 
+ *  Test cases for tables.c
  ****************************************/
 
 void test_table_1() {
@@ -101,22 +100,22 @@ void test_table_1() {
     CU_ASSERT_EQUAL(retval, 0);
     retval = add_to_table(tbl, "q45", 16);
     CU_ASSERT_EQUAL(retval, 0);
-    retval = add_to_table(tbl, "q45", 24); 
-    CU_ASSERT_EQUAL(retval, -1); 
-    retval = add_to_table(tbl, "bob", 14); 
-    CU_ASSERT_EQUAL(retval, -1); 
+    retval = add_to_table(tbl, "q45", 24);
+    CU_ASSERT_EQUAL(retval, -1);
+    retval = add_to_table(tbl, "bob", 14);
+    CU_ASSERT_EQUAL(retval, -1);
 
     retval = get_addr_for_symbol(tbl, "abc");
-    CU_ASSERT_EQUAL(retval, 8); 
+    CU_ASSERT_EQUAL(retval, 8);
     retval = get_addr_for_symbol(tbl, "q45");
-    CU_ASSERT_EQUAL(retval, 16); 
+    CU_ASSERT_EQUAL(retval, 16);
     retval = get_addr_for_symbol(tbl, "ef");
     CU_ASSERT_EQUAL(retval, -1);
-    
+
     free_table(tbl);
 
-    char* arr[] = { "Error: name 'q45' already exists in table.",
-                    "Error: address is not a multiple of 4." };
+    char* arr[] = {"Error: name 'q45' already exists in table.",
+                   "Error: address is not a multiple of 4."};
     check_lines_equal(arr, 2);
 
     SymbolTable* tbl2 = create_table(SYMTBL_NON_UNIQUE);
@@ -124,7 +123,7 @@ void test_table_1() {
 
     retval = add_to_table(tbl2, "q45", 16);
     CU_ASSERT_EQUAL(retval, 0);
-    retval = add_to_table(tbl2, "q45", 24); 
+    retval = add_to_table(tbl2, "q45", 24);
     CU_ASSERT_EQUAL(retval, 0);
 
     free_table(tbl2);
@@ -192,5 +191,6 @@ int main(int argc, char** argv) {
 
 exit:
     CU_cleanup_registry();
-    return CU_get_error();;
+    return CU_get_error();
+    ;
 }

@@ -3,3 +3,5 @@ test-assembler
 *~
 core
 vgcore*
+assembler.dSYM
+test-assembler.dSYM

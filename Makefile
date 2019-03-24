@@ -16,3 +16,15 @@ test-assembler: clean
 
 clean:
 	rm -f *.o assembler test-assembler core
+	rm -f out/*.int out/*.out
+	rm -f log/*.txt
+
+test:
+	sh test.sh
+
+vm:
+	docker run -it --name valgrind -v $(CURDIR):/home/berkeley/cs61c \
+		-w /home/berkeley/cs61c hexincloud/cs61c
+
+stop_vm:
+	docker rm valgrind

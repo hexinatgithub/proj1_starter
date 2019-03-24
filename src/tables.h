@@ -3,17 +3,17 @@
 
 #include <stdint.h>
 
-extern const int SYMTBL_NON_UNIQUE;      // allows duplicate names in table
-extern const int SYMTBL_UNIQUE_NAME;     // duplicate names not allowed
+extern const int SYMTBL_NON_UNIQUE;   // allows duplicate names in table
+extern const int SYMTBL_UNIQUE_NAME;  // duplicate names not allowed
 
 /* Complete the following definition of SymbolTable and implement the following
    functions. You are free to declare additional structs or functions, but you
-   must build this data structure yourself. 
+   must build this data structure yourself.
  */
 
 /* SOLUTION CODE BELOW */
 typedef struct {
-    char *name;
+    char* name;
     uint32_t addr;
 } Symbol;
 
@@ -35,7 +35,7 @@ void name_already_exists(const char* name);
 void write_symbol(FILE* output, uint32_t addr, const char* name);
 
 /* IMPLEMENT ME - see documentation in tables.c */
-SymbolTable* create_table();
+SymbolTable* create_table(int mode);
 
 /* IMPLEMENT ME - see documentation in tables.c */
 void free_table(SymbolTable* table);
