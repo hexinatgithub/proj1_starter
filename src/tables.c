@@ -9,6 +9,9 @@
 const int SYMTBL_NON_UNIQUE = 0;
 const int SYMTBL_UNIQUE_NAME = 1;
 
+const int SYMTBL_NON_UNIQUE = 0;
+const int SYMTBL_UNIQUE_NAME = 1;
+
 /*******************************
  * Helper Functions
  *******************************/
