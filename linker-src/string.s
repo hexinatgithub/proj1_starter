@@ -28,7 +28,16 @@ tab:	.asciiz "\t"
 #------------------------------------------------------------------------------
 strlen:
 	# YOUR CODE HERE
-	jr $ra
+	add	$v0, $zero, $zero # $v0=0
+	add	$t1, $a0, $zero # $t1=$a0=string input
+strlen_loop:
+	lb	$t2, 0($t1)
+	beq	$t2, $zero, strlen_return
+	addi	$t1, $t1, 1
+	addi	$v0, $v0, 1
+	j	strlen_loop
+strlen_return:
+	jr	$ra
 
 #------------------------------------------------------------------------------
 # function strncpy()
@@ -42,6 +51,21 @@ strlen:
 #------------------------------------------------------------------------------
 strncpy:
 	# YOUR CODE HERE
+	add	$t0, $zero, $zero
+	add $t1, $zero, $a0
+strncpy_loop:
+	slt		$t2, $t0, $a2
+	beq		$t2, $zero, strncpy_end
+	lb 		$t2, 0($a1)
+	beq		$t2, $zero, strncpy_end
+	sb 		$t2, 0($a0)
+	addiu 	$t0, $t0, 1
+	addiu 	$a0, $a0, 1
+	addiu 	$a1, $a1, 1
+	j 		strncpy_loop
+strncpy_end:
+	sb 		$zero, 0($a0)
+	add		$v0, $t1, $zero
 	jr $ra
 
 #------------------------------------------------------------------------------
@@ -58,6 +82,26 @@ strncpy:
 #------------------------------------------------------------------------------
 copy_of_str:
 	# YOUR CODE HERE
+	addi 	$sp, $sp, -12
+	sw 		$s0, 0($sp)
+	sw 		$s1, 4($sp)
+	sw 		$ra, 8($sp)
+
+	add 	$s0, $a0, $zero # $s0=$a0
+	jal		strlen
+	add 	$s1, $v0, $zero # $s1=len
+	li 		$v0, 9
+	addi 	$a0, $s1, 1
+	syscall
+	add 	$a0, $v0, $zero
+	add 	$a1, $s0, $zero
+	add 	$a2, $s1, $zero
+	jal 	strncpy
+
+	lw 		$ra, 8($sp)
+	lw 		$s1, 4($sp)
+	lw 		$s0, 0($sp)
+	addi 	$sp, $sp, 12
 	jr $ra
 
 ###############################################################################
