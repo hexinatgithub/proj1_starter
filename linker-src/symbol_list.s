@@ -49,7 +49,31 @@
 #------------------------------------------------------------------------------
 addr_for_symbol:
 	# YOUR CODE HERE
-	jr $ra
+	addi	$sp, $sp, -12 # Begin addr_for_symbol
+	sw		$s0, 0($sp)
+	sw 		$s1, 4($sp)
+	sw 		$ra, 8($sp)
+	add 	$s0, $a0, $zero # $s0=$a0
+	add 	$s1, $a1, $zero # $s1=$a1
+addr_for_symbol_loop:
+	beq		$s0, $zero, addr_for_symbol_not_found
+	lw 		$a0, 4($s0)
+	add 	$a1, $s1, $zero
+	jal 	streq
+	beq 	$v0, $zero, addr_for_symbol_found
+	lw 		$s0, 8($s0)
+	j 		addr_for_symbol_loop
+addr_for_symbol_found:
+	lw 		$v0, 0($s0)
+	j 		addr_for_symbol_end
+addr_for_symbol_not_found:
+	li 		$v0, -1
+addr_for_symbol_end:
+	lw 		$ra, 8($sp)
+	lw 		$s1, 4($sp)
+	lw		$s0, 0($sp)
+	addi	$sp, $sp, 12
+	jr $ra # End addr_for_symbol
 	
 #------------------------------------------------------------------------------
 # function add_to_list()
@@ -71,6 +95,29 @@ addr_for_symbol:
 #------------------------------------------------------------------------------
 add_to_list:	
 	# YOUR CODE HERE
+	addi	$sp, $sp, -20
+	sw		$s0, 0($sp)
+	sw 		$s1, 4($sp)
+	sw 		$s2, 8($sp)
+	sw 		$s3, 12($sp)
+	sw 		$ra, 16($sp)
+	move 	$s0, $a0 # $s0=$a0
+	move 	$s1, $a1 # $s1=$a1
+	move 	$s2, $a2 # $s2=$a2
+	jal		new_node
+	move 	$s3, $v0 # $s3=ptr to new node
+	move 	$a0, $s2
+	jal 	copy_of_str
+	sw 		$s1, 0($s3)
+	sw 		$v0, 4($s3)
+	sw 		$s0, 8($s3)
+	move 	$v0, $s3
+	lw 		$ra, 16($sp)
+	lw 		$s3, 12($sp)
+	lw 		$s2, 8($sp)
+	lw 		$s1, 4($sp)
+	lw		$s0, 0($sp)
+	addi	$sp, $sp, 20
 	jr $ra
 
 ###############################################################################
