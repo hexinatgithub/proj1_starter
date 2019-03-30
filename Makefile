@@ -1,3 +1,5 @@
+.PHONY: test-linker test-assembler
+
 CC = gcc
 CFLAGS = -g -std=gnu99 -Wall
 CUNIT = -L/home/ff/cs61c/cunit/install/lib -I/home/ff/cs61c/cunit/install/include -lcunit
@@ -21,6 +23,9 @@ clean:
 
 test:
 	sh test.sh
+
+test-linker:
+	./test-linker
 
 vm:
 	docker run -it --name valgrind -v $(CURDIR):/home/berkeley/cs61c \

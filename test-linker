@@ -1,0 +1,3 @@
+java -jar ./mars.jar nc sm linker-tests/test_string.s
+java -jar ./mars.jar nc sm linker-tests/test_symbol_list.s
+java -jar ./mars.jar nc sm linker-tests/test_linker_utils.s
